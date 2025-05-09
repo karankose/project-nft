@@ -1,5 +1,5 @@
 import React from "react";
-import Navbars from "../componts/screens/Navbars";
+import {Navbars} from "../componts/screens/Navbars";
 import HeroSection from "../componts/screens/HeroSection";
 import Section1 from "../componts/screens/Section1";
 import Section2 from "../componts/screens/Section2";

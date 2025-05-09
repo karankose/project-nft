@@ -7,7 +7,7 @@ const routers = {
     featuresRouter : "/features",
     contactRouter : "/contact",
     //user
-    DeshBoardRouter : "/dashboard",
+    UserDeshBoardRouter : "/dashboard",
     jobRouter : "jobs",
     companyRouter : "companyList",
     jobDetails : "jobDetails/:id",
@@ -15,7 +15,7 @@ const routers = {
     yourResumeRouter : "yourResume",
     //recruiter
     recruiterRouter : "recruiter-Dashboard",
-jobSeekarRouter :  "jobSeekers",
+    jobSeekarRouter :  "jobSeekers",
     
     
     

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import Navbars from '../componts/screens/Navbars';
+import {Navbars} from '../componts/screens/Navbars';
 import Footer from '../componts/screens/Footer';
 import FormInputs from '../componts/reuseComponts/reuseFormComponent/FormInputs';
 import CustomButton from '../componts/reuseComponts/reuseButton/CustomButton';
@@ -10,7 +10,7 @@ import routers from '../Routers';
 import { Link } from 'react-router-dom';
 import { toast} from 'react-toastify';
 
-const SignUp = () => {
+export const SignUp = () => {
   const API_URL = import.meta.env.VITE_API_URL;
   const navigate = useNavigate();
   const [formData, setFormData] = useState({

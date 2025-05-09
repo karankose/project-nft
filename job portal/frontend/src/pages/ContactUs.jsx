@@ -1,5 +1,5 @@
 import React from 'react'
-import Navbars from '../componts/screens/Navbars';
+import {Navbars} from '../componts/screens/Navbars';
 import { Link } from 'react-router-dom';
 import routers from '../Routers';
 import Footer from '../componts/screens/Footer';

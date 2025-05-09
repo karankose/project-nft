@@ -3,7 +3,7 @@ import { Images } from '../../assets/image';
 import { Link } from 'react-router-dom';
 import routers from '../../Routers';
 
-const Navbars = () => {
+export const Navbars = () => {
   return (
     <>
       <nav className="navbar navbar-expand-lg bg-body-tertiary py-2">
@@ -56,4 +56,3 @@ const Navbars = () => {
   )
 }
 
-export default Navbars;

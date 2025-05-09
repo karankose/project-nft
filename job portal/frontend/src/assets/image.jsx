@@ -41,6 +41,22 @@ import AIBot from './image/aibot.gif'
 import loadingLine from './image/loadingLine.gif'
 import loading from './image/loading.gif'
 import procesing from './image/procesing.gif'
+import Dashboard from "./image/dashboard.svg";
+import SelectedDashboard from "./image/selected-dashboard.svg";
+import Dollar from "./image/dollar-money.png";
+import Logo from "./image/HappyPuppy-logo.png";
+import profileIcon from "./image/profile-icon.svg";
+import SelectedUserManagment from "./image/selected-user-management.svg";
+import Settings from "./image/settings.svg";
+import Reports from "./image/reports.svg";
+import UserManagment from "./image/userManagement.svg";
+import MobileLogo from "./image/mobile-logo.svg";
+import CollapseLeft from "./image/Button-left.svg";
+import CollapseRight from "./image/Button-Right.svg";
+import SelectedReports from "./image/selectedReports.svg";
+import logoForMobile from './image/logoForMobile.jpg'
+import mobileLogoJob from './image/mobileLogoJob.png'
+import logoMobileView from './image/logoMobileView.png'
 
 
 export const Images = {
@@ -49,8 +65,21 @@ export const Images = {
     HeroSectionImage, GroupImage,About1,About2,
     Icon1, Icon2, Icon3, Icon4, Icon5, Icon6, Icon8, Icon10, Icon11, Icon12,
     FromBackground,
-    OurVision,UserImg,
+    OurVision,UserImg,mobileLogoJob,
     button1,
-    button2,GPT,BGImage,AIBot,
+    button2,GPT,BGImage,AIBot,logoMobileView,
     loading , loadingLine, procesing,
+    CollapseLeft,
+  CollapseRight,
+  Dashboard,
+  SelectedDashboard,
+  Dollar,
+  Logo,logoForMobile,
+  profileIcon,
+  SelectedUserManagment,
+  Settings,
+  Reports,
+  UserManagment,
+  MobileLogo,
+  SelectedReports,
 }

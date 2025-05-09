@@ -9,30 +9,56 @@ import cron from 'node-cron';
 dotenv.config();
 
 
-
-
 export const GetJobs = async (req, res, next) => {
-  try {
-    const jobs = await Job.find().sort({ createdAt: -1 });
-
-    res.status(200).json({
-      success: true,
-      status: 200,
-      message: "All jobs fetched successfully",
-      data: jobs,
-    });
-  } catch (error) {
-    console.error("Error fetching jobs:", error.message);
-    res.status(500).json({
-      success: false,
-      status: 500,
-      message: "Failed to fetch jobs",
-      data: null,
-    });
-  }
-};
-
-        
+    try {
+      const page = parseInt(req.query.page) || 1;
+      const limit = parseInt(req.query.limit) || 15;
+      const skip = (page - 1) * limit;
+  
+      const { title, location, days } = req.query;
+  
+    
+      const query = {};
+      if (title) {
+        query.title = { $regex: title, $options: "i" };
+      }
+      if (location) {
+        query.location = { $regex: location, $options: "i" };
+      }
+      if (days) {
+        const pastDate = new Date();
+        pastDate.setDate(pastDate.getDate() - parseInt(days));
+        query.createdAt = { $gte: pastDate };
+      }
+  
+      const jobs = await Job.find(query)
+        .sort({ createdAt: -1 })
+        .skip(skip)
+        .limit(limit);
+  
+      const totalJobs = await Job.countDocuments(query);
+  
+      res.status(200).json({
+        success: true,
+        status: 200,
+        message: "Jobs fetched successfully",
+        currentPage: page,
+        totalPages: Math.ceil(totalJobs / limit),
+        totalJobs,
+        data: jobs,
+      });
+    } catch (error) {
+      console.error("Error fetching jobs:", error.message);
+      res.status(500).json({
+        success: false,
+        status: 500,
+        message: "Failed to fetch jobs",
+        data: null,
+      });
+    }
+  };
+  
+          
 export const GetJobById = async (req, res, next) => {
   try {
     const { job_id } = req.params;
@@ -217,10 +243,10 @@ cron.schedule('0 0 0 * * *', async () => {
   console.log('⏰ Cron job started at midnight');
   for (let i = 0; i < 5; i++) {
     try {
-      console.log(`🔁 API Hit #${i + 1}`);
+      console.log(`API Hit #${i + 1}`);
       await scrapeJobsFromSerpAPI();
     } catch (err) {
-      console.error(`❌ Error on run #${i + 1}:`, err.message);
+      console.error(` Error on run #${i + 1}:`, err.message);
     }
   }
 });

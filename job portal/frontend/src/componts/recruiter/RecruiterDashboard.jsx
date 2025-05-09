@@ -1,25 +1,14 @@
-import React from "react";
-import { Outlet } from "react-router-dom";
-import RecruiterSideBar from "./RecruiterSideBar";
-
+import React from 'react'
+import JobPage from '../../pages/JobPage';
 
 const RecruiterDashboard = () => {
   return (
-    <>
+  <>
+  <JobPage/>
+  </>
+  )
+}
 
-      <div
-        className=""
-      >
-          <div className="">
-            <RecruiterSideBar />
-          </div>
-          {/* <div className="col-md-10">
-            <Outlet />
-          </div> */}
-        </div>
 
-    </>
-  );
-};
 
 export default RecruiterDashboard;

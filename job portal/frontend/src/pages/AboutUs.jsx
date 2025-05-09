@@ -1,5 +1,5 @@
 import React from "react";
-import Navbars from "../componts/screens/Navbars";
+import {Navbars} from "../componts/screens/Navbars";
 import Footer from "../componts/screens/Footer";
 import Testimonial from "../componts/screens/Testimonial";
 import Section2 from "../componts/screens/Section2";

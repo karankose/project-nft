@@ -1,7 +1,5 @@
 import React from "react";
-import Sidebar from "../componts/screens/Sidebar";
-import Topbar from "../componts/screens/Topbar";
-import JobCard from "../componts/screens/JobCard";
+
 import CompaniesList from "../componts/screens/CompaniesList";
 
 const Companies = [
@@ -46,8 +44,7 @@ const Companies = [
 function CompanyPage() {
   return (
     <>
-      {/* <Sidebar />
-      <Topbar /> */}
+     
 
       <div className="container-fliud p-5 mt-5" style={{background:"#46B6EEDB"}}>
         <h1 className="mb-4 fw-bold text-light text-center">Companies List</h1>
