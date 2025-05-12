@@ -1,0 +1,10 @@
+.sidebar-link:hover {
+    background-color: #495057;
+    border-radius: 4px;
+    transition: background 0.3s;
+  }
+  
+  .transition-all {
+    transition: width 0.3s ease-in-out;
+  }
+  
