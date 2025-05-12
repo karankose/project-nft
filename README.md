@@ -1,2 +1,0 @@
-# JobPortal-project-nft
-training 
