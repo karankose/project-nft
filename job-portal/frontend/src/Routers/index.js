@@ -16,6 +16,12 @@ const routers = {
     //recruiter
     recruiterRouter : "recruiter-Dashboard",
     jobSeekarRouter :  "jobSeekers",
+
+
+
+    // Admin
+    adminLoginRouter : "admin-login",
+    adminDashboardRouter  : "admin-dashboard"
     
     
     

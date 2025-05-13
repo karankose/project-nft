@@ -239,6 +239,67 @@ export const GetJobsFromSrap = async (req, res) => {
 };
 
 
+
+
+export const createJob = async (req, res) => {
+  try {
+    const {
+      title,
+      company_name,
+      location,
+      via,
+      share_link,
+      thumbnail,
+      extensions,
+      detected_extensions,
+      description,
+      apply_options,
+      job_id,
+    } = req.body;
+
+    // Check if job with same job_id already exists
+    const existing = await Job.findOne({ job_id });
+    if (existing) {
+      return res.status(409).json({
+        success: false,
+        status: 409,
+        message: "Job with this ID already exists",
+        data: null,
+      });
+    }
+
+    const newJob = await Job.create({
+      title,
+      company_name,
+      location,
+      via,
+      share_link,
+      thumbnail,
+      extensions,
+      detected_extensions,
+      description,
+      apply_options,
+      job_id,
+    });
+
+    res.status(201).json({
+      success: true,
+      status: 201,
+      message: "Job created successfully",
+      data: newJob,
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      status: 500,
+      message: "Server error",
+      data: error.message,
+    });
+  }
+};
+
+
+
 cron.schedule('0 0 0 * * *', async () => {
   console.log('⏰ Cron job started at midnight');
   for (let i = 0; i < 5; i++) {
