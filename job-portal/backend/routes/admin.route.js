@@ -1,5 +1,7 @@
 import express from "express";
-import { adminLogin } from "../controller/admin.controller.js";
+import { adminLogin, getAllUsersData, getStats , deleteUser, updateUser,createUser,
+  getAllRecruiters,createRecruiter ,updateRecruiter ,deleteRecruiter
+} from "../controller/admin.controller.js";
 import validateAdminLogin from "../middleWare/admin.validation.js";
 import handleValidation from "../middleWare/handleValidation.js";
 import adminAuthMiddleware from "../middleWare/AdminAuth.js";
@@ -18,5 +20,21 @@ adminRouter.get("/dashboard", adminAuthMiddleware, (req, res) => {
     data: req.user
   });
 });
+
+adminRouter.get('/stats',getStats);
+
+adminRouter.get('/get-users-data', getAllUsersData)
+
+adminRouter.post('/create-user', createUser)
+
+adminRouter.delete('/delete-user/:id', deleteUser);
+
+adminRouter.put('/update-user/:id',updateUser)
+
+
+adminRouter.get('/get-recruiters', getAllRecruiters);
+adminRouter.post('/create-recruiter', createRecruiter);
+adminRouter.put('/update-recruiter/:id', updateRecruiter);
+adminRouter.delete('/delete-recruiter/:id', deleteRecruiter);
 
 export default adminRouter;

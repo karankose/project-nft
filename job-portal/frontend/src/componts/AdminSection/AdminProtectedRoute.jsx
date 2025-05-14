@@ -9,7 +9,6 @@ const AdminProtectedRoute = ({ children }) => {
     return <Navigate to="/admin-login" replace />;
   }
 
-  // ✅ If admin is logged in, render the children (protected layout/page)
   return children;
 };
 

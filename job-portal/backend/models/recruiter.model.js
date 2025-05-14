@@ -36,7 +36,7 @@ const RecruiterSchema = new mongoose.Schema({
     default: "",
   },
   Role: {
-    type: String,
+    type: String, 
     default: "recruiter",
   },
   CreatedAt: {

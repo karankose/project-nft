@@ -21,7 +21,10 @@ const routers = {
 
     // Admin
     adminLoginRouter : "admin-login",
-    adminDashboardRouter  : "admin-dashboard"
+    adminDashboardRouter  : "admin-dashboard",
+    adminGetInfoRouter : "info",
+    adminGetUserDataRouter : "userInfo",
+    adminGetRecruiterRouter : "recruiterInfo",
     
     
     

@@ -7,6 +7,7 @@ import jobRouter from './routes/job.route.js';
 import geminiRouter from './routes/gemini.route.js';
 import recruiterRouter from './routes/recruiter.route.js';
 import adminRouter from './routes/admin.route.js';
+import commonRouter from './routes/common.route.js';
 
 dotenv.config();
 
@@ -28,6 +29,7 @@ app.use('/api/jobs',jobRouter)
 app.use('/api/resume',geminiRouter)
 app.use('/api/recruiter',recruiterRouter)
 app.use("/admin",adminRouter)
+app.use('/api',commonRouter)
 
 
 

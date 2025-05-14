@@ -123,8 +123,8 @@ export const Layout = () => {
                     <img src={Images.Person1} width={40} height={40} alt="Profile" />
                   </div>
                   <div>
-                    <p className="profile-name">User demo</p>
-                    <p className="profile-role">User</p>
+                    <p className="profile-name m-0">User demo</p>
+                    <p className="profile-role m-0">User</p>
                   </div>
                 </div>
               </div>

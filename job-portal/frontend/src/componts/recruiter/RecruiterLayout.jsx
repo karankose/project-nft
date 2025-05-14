@@ -259,8 +259,8 @@ export const RecruiterLayout = () => {
                     <img src={Images.Person1} width={40} height={40} alt="Profile" />
                   </div>
                   <div>
-                    <p className="profile-name">Recruiter Name</p>
-                    <p className="profile-role">Recruiter</p>
+                    <p className="profile-name m-0">Recruiter Name</p>
+                    <p className="profile-role m-0">Recruiter</p>
                   </div>
                 </div>
               </div>

@@ -145,6 +145,8 @@ import AdminLayout from './componts/AdminSection/AdminLayout';
 // 🔵 Route Definitions
 import routers from './Routers';
 import Section1 from './componts/screens/Section1';
+import UserTable from './componts/AdminSection/UserTable';
+import RecruiterTable from './componts/AdminSection/RecruiterTable';
 
 const App = () => {
   return (
@@ -203,9 +205,9 @@ const App = () => {
             </AdminProtectedRoute>
           }
         >
-          <Route path={routers.resumeRouter} element={<Section1 />} />
-          <Route path={routers.jobRouter} element={<JobPage />} />
-          <Route path={routers.companyRouter} element={<CompanyPage />} />
+          <Route path={routers.adminGetInfoRouter} element={<Section1 />} />
+          <Route path={routers.adminGetUserDataRouter} element={<UserTable />} />
+          <Route path={routers.adminGetRecruiterRouter} element={<RecruiterTable />} />
           <Route path={routers.jobDetails} element={<JobDetails />} />
           <Route path={routers.yourResumeRouter} element={<ResumePreview />} />
         </Route>

@@ -33,13 +33,13 @@ export const Navbars = () => {
           
             <ul className="navbar-nav mb-2 mb-lg-0">
               <li className="nav-item">
-                <a className="nav-link" aria-current="page" href="#">How To Use?</a>
-              </li>
-              <li className="nav-item">
                 <Link to={routers.featuresRouter} className="nav-link" href="#">Features</Link>
               </li>
               <li className="nav-item">
                 <Link to={routers.pricingRouter} className="nav-link" >Pricing Plans</Link>
+              </li>
+              <li className="nav-item">
+                <Link to={routers.contactRouter} className="nav-link" >Contact Us</Link>
               </li>
             </ul>
 

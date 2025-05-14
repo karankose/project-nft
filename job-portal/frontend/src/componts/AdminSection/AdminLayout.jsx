@@ -53,66 +53,52 @@ export const AdminLayout = () => {
             <div className={isCollapsed ? "sub-panel-collapse" : "sub-panel"}>
               <p className="Fs13_FW600 black p-4">MENUS</p>
               <ul className="w-100">
-                <li className={`py-3 px-4 ${activePath === "/admin-dashboard" ? "active-menu" : ""}`}>
-                  <Link to={routers.adminDashboardRouter}>
+                <li className={`py-3 px-4 ${activePath === "/info" ? "active-menu" : ""}`}>
+                  <Link to={routers.adminGetInfoRouter}>
                     <span className="d-flex gap-3">
                       <img
                         src={
-                          activePath === "/admin-dashboard"
+                          activePath === "  /info"
                             ? Images.SelectedDashboard
                             : Images.Dashboard
                         }
                         alt="Jobs Icon"
                       />
-                      {!isCollapsed && <p className="Fs16_FW600 black">Jobs</p>}
+                      {!isCollapsed && <p className="Fs16_FW600 black">Information</p>}
                     </span>
                   </Link>
                 </li>
-                <li className={`py-3 px-4 ${activePath === "/companyList" ? "active-menu" : ""}`}>
-                  <Link to={routers.companyRouter}>
+                <li className={`py-3 px-4 ${activePath === "/userInfo" ? "active-menu" : ""}`}>
+                  <Link to={routers.adminGetUserDataRouter}>
                     <span className="d-flex gap-3">
                       <img
                         src={
-                          activePath === "/companyList"
+                          activePath === "/userInfo"
                             ? Images.SelectedUserManagment
                             : Images.UserManagment
                         }
                         alt="Companies Icon"
                       />
-                      {!isCollapsed && <p className="Fs16_FW600 black">Companies</p>}
+                      {!isCollapsed && <p className="Fs16_FW600 black">Users</p>}
                     </span>
                   </Link>
                 </li>
-                <li className={`py-3 px-4 ${activePath === "/resume" ? "active-menu" : ""}`}>
-                  <Link to={routers.resumeRouter}>
+                <li className={`py-3 px-4 ${activePath === "/recruiterInfo" ? "active-menu" : ""}`}>
+                  <Link to={routers.adminGetRecruiterRouter}>
                     <span className="d-flex gap-3">
                       <img
                         src={
-                          activePath === "/resume"
+                          activePath === "/recruiterInfo"
                             ? Images.SelectedReports
                             : Images.Reports
                         }
                         alt="Resume Icon"
                       />
-                      {!isCollapsed && <p className="Fs16_FW600 black">Resume View</p>}
+                      {!isCollapsed && <p className="Fs16_FW600 black"> Recruiters</p>}
                     </span>
                   </Link>
                 </li>
-                <li className={`py-3 px-4 ${activePath === "/jobSeekers" ? "active-menu" : ""}`}>
-                  <Link to={routers.jobSeekarRouter}>
-                    <span className="d-flex gap-3">
-                      <img
-                        src={
-                          activePath === "/jobSeekers"
-                            ? Images.SelectedReports
-                            : Images.Reports
-                        }
-                        alt="Resume Icon"
-                      />
-                      {!isCollapsed && <p className="Fs16_FW600 black">jobSeekers</p>}
-                    </span>
-                  </Link>
-                </li>
+              
                 
               </ul>
             </div>
@@ -127,8 +113,8 @@ export const AdminLayout = () => {
                     <img src={Images.Person1} width={40} height={40} alt="Profile" />
                   </div>
                   <div>
-                    <p className="profile-name">Admin Name</p>
-                    <p className="profile-role">Admin</p>
+                    <p className="profile-name m-0">Admin Name</p>
+                    <p className="profile-role m-0">Admin</p>
                   </div>
                 </div>
               </div>
