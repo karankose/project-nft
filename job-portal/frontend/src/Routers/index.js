@@ -25,6 +25,9 @@ const routers = {
     adminGetInfoRouter : "info",
     adminGetUserDataRouter : "userInfo",
     adminGetRecruiterRouter : "recruiterInfo",
+    inquiryTableRouter : "inquiryInfo",
+    jobcurdRouter  : "jobget",  
+
     
     
     

@@ -26,6 +26,11 @@ const RecruiterSchema = new mongoose.Schema({
     required: true,
     trim: true,
   },
+  Phone:{
+    type : Number,
+    minlength : 10,
+    required : true,
+  },
   Designation: {
     type: String,
     default: "",

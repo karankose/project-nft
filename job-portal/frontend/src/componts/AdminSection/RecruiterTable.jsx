@@ -1,222 +1,9 @@
 
-// import React, { useState, useEffect } from 'react';
-// import axios from 'axios';
-// import FormInputs from '../../componts/reuseComponts/reuseFormComponent/FormInputs';
-// import CustomButton from '../../componts/reuseComponts/reuseButton/CustomButton';
-
-// const VITE_ADMIN_URL = import.meta.env.VITE_ADMIN_URL;
-
-// const RecruiterTable = () => {
-//   const [recruiters, setRecruiters] = useState([]);
-//   const [currentPage, setCurrentPage] = useState(1);
-//   const [totalPages, setTotalPages] = useState(1);
-//   const [editRecruiter, setEditRecruiter] = useState(null);
-//   const [editFormData, setEditFormData] = useState({
-//     FirstName: '',
-//     LastName: '',
-//     Email: '',
-//     Phone: '',
-//     CompanyName: '',
-//     Designation: ''
-//   });
-//   const [showCreateForm, setShowCreateForm] = useState(false);
-//   const [createFormData, setCreateFormData] = useState({
-//     FirstName: '',
-//     LastName: '',
-//     Email: '',
-//     Phone: '',
-//     Password: '',
-//     CompanyName: '',
-//     Designation: ''
-//   });
-
-//   const fetchRecruiters = (page) => {
-//     axios.get(`${VITE_ADMIN_URL}/get-recruiters?page=${page}`)
-//       .then((response) => {
-//         setRecruiters(response.data.data);
-//         setCurrentPage(response.data.pagination.currentPage);
-//         setTotalPages(response.data.pagination.totalPages);
-//       })
-//       .catch((error) => {
-//         console.error('Error fetching recruiters:', error);
-//       });
-//   };
-
-//   useEffect(() => {
-//     fetchRecruiters(currentPage);
-//   }, [currentPage]);
-
-//   const handleDelete = (id) => {
-//     axios.delete(`${VITE_ADMIN_URL}/delete-recruiter/${id}`)
-//       .then(() => fetchRecruiters(currentPage))
-//       .catch((error) => console.error('Error deleting recruiter:', error));
-//   };
-
-//   const handleEdit = (recruiter) => {
-//     setEditRecruiter(recruiter);
-//     setEditFormData({
-//       FirstName: recruiter.FirstName,
-//       LastName: recruiter.LastName,
-//       Email: recruiter.Email,
-//       Phone: recruiter.Phone || '',
-//       CompanyName: recruiter.CompanyName,
-//       Designation: recruiter.Designation || ''
-//     });
-//   };
-
-//   const handleEditChange = (e) => {
-//     setEditFormData({ ...editFormData, [e.target.name]: e.target.value });
-//   };
-
-//   const handleEditSubmit = (e) => {
-//     e.preventDefault();
-//     axios.put(`${VITE_ADMIN_URL}/update-recruiter/${editRecruiter._id}`, editFormData)
-//       .then(() => {
-//         fetchRecruiters(currentPage);
-//         setEditRecruiter(null);
-//       })
-//       .catch((error) => console.error('Error updating recruiter:', error));
-//   };
-
-//   const handleCreateChange = (e) => {
-//     setCreateFormData({ ...createFormData, [e.target.name]: e.target.value });
-//   };
-
-//   const handleCreateSubmit = (e) => {
-//     e.preventDefault();
-//     axios.post(`${VITE_ADMIN_URL}/create-recruiter`, createFormData)
-//       .then(() => {
-//         setShowCreateForm(false);
-//         fetchRecruiters(currentPage);
-//         setCreateFormData({
-//           FirstName: '', LastName: '', Email: '', Phone: '',
-//           Password: '', CompanyName: '', Designation: ''
-//         });
-//       })
-//       .catch((error) => console.error('Error creating recruiter:', error));
-//   };
-
-//   const handlePageChange = (page) => {
-//     if (page >= 1 && page <= totalPages) setCurrentPage(page);
-//   };
-
-//   return (
-//     <div className="container mt-5">
-//       <h2>Recruiter List</h2>
-//       <CustomButton
-//         label={showCreateForm ? "Close Create Form" : "Create New Recruiter"}
-//         onClick={() => setShowCreateForm(!showCreateForm)}
-//         btnClassName="btn btn-success mb-3"
-//       />
-
-//       {showCreateForm && (
-//         <div className="card mb-4 p-3">
-//           <form onSubmit={handleCreateSubmit}>
-//             <FormInputs label="First Name" name="FirstName" value={createFormData.FirstName} onChange={handleCreateChange} required wrapperClassName="mb-3" />
-//             <FormInputs label="Last Name" name="LastName" value={createFormData.LastName} onChange={handleCreateChange} required wrapperClassName="mb-3" />
-//             <FormInputs label="Email" name="Email" type="email" value={createFormData.Email} onChange={handleCreateChange} required wrapperClassName="mb-3" />
-//             <FormInputs label="Phone" name="Phone" value={createFormData.Phone} onChange={handleCreateChange} wrapperClassName="mb-3" />
-//             <FormInputs label="Company Name" name="CompanyName" value={createFormData.CompanyName} onChange={handleCreateChange} required wrapperClassName="mb-3" />
-//             <FormInputs label="Designation" name="Designation" value={createFormData.Designation} onChange={handleCreateChange} wrapperClassName="mb-3" />
-//             <FormInputs label="Password" name="Password" type="password" value={createFormData.Password} onChange={handleCreateChange} required wrapperClassName="mb-3" />
-//             <CustomButton type="submit" label="Create" btnClassName="btn btn-primary" />
-//           </form>
-//         </div>
-//       )}
-
-//       <table className="table table-bordered">
-//         <thead>
-//           <tr>
-//             <th>#</th>
-//             <th>First</th>
-//             <th>Last</th>
-//             <th>Email</th>
-//             <th>Phone</th>
-//             <th>Company</th>
-//             <th>Designation</th>
-//             <th>Role</th>
-//             <th>Actions</th>
-//           </tr>
-//         </thead>
-//         <tbody>
-//           {recruiters.map((r, i) => (
-//             <tr key={r._id}>
-//               <td>{(currentPage - 1) * 5 + i + 1}</td>
-//               <td>{r.FirstName}</td>
-//               <td>{r.LastName}</td>
-//               <td>{r.Email}</td>
-//               <td>{r.Phone || 'N/A'}</td>
-//               <td>{r.CompanyName}</td>
-//               <td>{r.Designation || 'N/A'}</td>
-//               <td>{r.Role}</td>
-//               <td>
-//                 <button className="btn btn-primary me-2" onClick={() => handleEdit(r)}>Edit</button>
-//                 <button className="btn btn-danger" onClick={() => handleDelete(r._id)}>Delete</button>
-//               </td>
-//             </tr>
-//           ))}
-//         </tbody>
-//       </table>
-
-//       {/* Pagination */}
-//       <nav>
-//         <ul className="pagination justify-content-center">
-//           <li className={`page-item ${currentPage === 1 && 'disabled'}`}>
-//             <button className="page-link" onClick={() => handlePageChange(currentPage - 1)}>Previous</button>
-//           </li>
-//           {Array.from({ length: totalPages }, (_, i) => (
-//             <li key={i + 1} className={`page-item ${currentPage === i + 1 && 'active'}`}>
-//               <button className="page-link" onClick={() => handlePageChange(i + 1)}>{i + 1}</button>
-//             </li>
-//           ))}
-//           <li className={`page-item ${currentPage === totalPages && 'disabled'}`}>
-//             <button className="page-link" onClick={() => handlePageChange(currentPage + 1)}>Next</button>
-//           </li>
-//         </ul>
-//       </nav>
-
-//       {/* Edit Modal */}
-//       {editRecruiter && (
-//         <div className="modal fade show d-block" tabIndex="-1" style={{ backgroundColor: 'rgba(0,0,0,0.5)' }}>
-//           <div className="modal-dialog">
-//             <div className="modal-content">
-//               <form onSubmit={handleEditSubmit}>
-//                 <div className="modal-header">
-//                   <h5>Edit Recruiter</h5>
-//                   <button type="button" className="btn-close" onClick={() => setEditRecruiter(null)}></button>
-//                 </div>
-//                 <div className="modal-body">
-//                   <FormInputs label="First Name" name="FirstName" value={editFormData.FirstName} onChange={handleEditChange} required wrapperClassName="mb-3" />
-//                   <FormInputs label="Last Name" name="LastName" value={editFormData.LastName} onChange={handleEditChange} required wrapperClassName="mb-3" />
-//                   <FormInputs label="Email" name="Email" type="email" value={editFormData.Email} onChange={handleEditChange} required wrapperClassName="mb-3" />
-//                   <FormInputs label="Phone" name="Phone" value={editFormData.Phone} onChange={handleEditChange} wrapperClassName="mb-3" />
-//                   <FormInputs label="Company Name" name="CompanyName" value={editFormData.CompanyName} onChange={handleEditChange} required wrapperClassName="mb-3" />
-//                   <FormInputs label="Designation" name="Designation" value={editFormData.Designation} onChange={handleEditChange} wrapperClassName="mb-3" />
-//                 </div>
-//                 <div className="modal-footer">
-//                   <CustomButton type="submit" label="Update" btnClassName="btn btn-success" />
-//                   <CustomButton type="button" label="Cancel" onClick={() => setEditRecruiter(null)} btnClassName="btn btn-secondary" />
-//                 </div>
-//               </form>
-//             </div>
-//           </div>
-//         </div>
-//       )}
-//     </div>
-//   );
-// };
-
-// export default RecruiterTable;
-
-
-
-
-
-
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import FormInputs from '../../componts/reuseComponts/reuseFormComponent/FormInputs';
 import CustomButton from '../../componts/reuseComponts/reuseButton/CustomButton';
+import CreateRecruiterForm from './CreateRecruiterForm';
 
 const VITE_ADMIN_URL = import.meta.env.VITE_ADMIN_URL;
 
@@ -329,7 +116,7 @@ const RecruiterTable = () => {
         btnClassName="btn btn-success mb-3"
       />
 
-      {showCreateForm && (
+      {/* {showCreateForm && (
         <div className="card mb-4 p-3">
           <form onSubmit={handleCreateSubmit}>
             {["FirstName", "LastName", "Email", "Phone", "CompanyName", "Designation", "Password"].map(field => (
@@ -347,7 +134,17 @@ const RecruiterTable = () => {
             <CustomButton type="submit" label="Create" btnClassName="btn btn-primary" />
           </form>
         </div>
-      )}
+      )} */}
+
+
+{showCreateForm && (
+  <CreateRecruiterForm
+    formData={createFormData}
+    onChange={handleCreateChange}
+    onSubmit={handleCreateSubmit}
+  />
+)}
+
 
       {loading ? (
         <p>Loading...</p>
@@ -444,3 +241,12 @@ const RecruiterTable = () => {
 };
 
 export default RecruiterTable;
+
+
+
+
+
+
+
+
+

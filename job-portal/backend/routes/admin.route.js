@@ -1,6 +1,8 @@
 import express from "express";
 import { adminLogin, getAllUsersData, getStats , deleteUser, updateUser,createUser,
-  getAllRecruiters,createRecruiter ,updateRecruiter ,deleteRecruiter
+  getAllRecruiters,createRecruiter ,updateRecruiter ,deleteRecruiter,
+  getAllInquiries,
+  replyInquiry
 } from "../controller/admin.controller.js";
 import validateAdminLogin from "../middleWare/admin.validation.js";
 import handleValidation from "../middleWare/handleValidation.js";
@@ -36,5 +38,11 @@ adminRouter.get('/get-recruiters', getAllRecruiters);
 adminRouter.post('/create-recruiter', createRecruiter);
 adminRouter.put('/update-recruiter/:id', updateRecruiter);
 adminRouter.delete('/delete-recruiter/:id', deleteRecruiter);
+
+adminRouter.get("/inquiries", getAllInquiries); 
+
+adminRouter.post("/inquiries/reply", replyInquiry);
+
+
 
 export default adminRouter;

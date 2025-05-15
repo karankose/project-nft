@@ -5,7 +5,9 @@ import Job from '../models/job.model.js'
 import Company from '../models/company.module.js'
 import User from '../models/user.model.js'
 import Recruiter from '../models/recruiter.model.js';
-
+import Inquiry from '../models/Inquiry.model.js';
+import { sendMail } from '../service/emailService.js';
+import ReplyInquiry from '../models/replyInquiry.model.js';
 export const adminLogin = async (req, res) => {
   try {
     const { Email, Password } = req.body;
@@ -277,43 +279,97 @@ export const createUser = async (req , res)=>{
       }
     };
     
-    // Create a New Recruiter
-    export const createRecruiter = async (req, res) => {
-      const { FirstName, LastName, Email, Password, CompanyName, Designation, UserProfile } = req.body;
+    // // Create a New Recruiter
+    // export const createRecruiter = async (req, res) => {
+    //   const { FirstName, LastName, Email, Password,Phone, CompanyName, Designation, UserProfile } = req.body;
     
-      try {
-        const hashedPassword = await bcrypt.hash(Password, 10);
+    //   try {
+    //     const hashedPassword = await bcrypt.hash(Password, 10);
     
-        const newRecruiter = new Recruiter({
-          FirstName,
-          LastName,
-          Email,
-          Password: hashedPassword,
-          CompanyName,
-          Designation,
-          UserProfile
-        });
+    //     const newRecruiter = new Recruiter({
+    //       FirstName,
+    //       LastName,
+    //       Email,
+    //       Phone,
+    //       Password: hashedPassword,
+    //       CompanyName,
+    //       Designation,
+    //       UserProfile
+    //     });
     
-        await newRecruiter.save();
-        res.status(201).json({
-          success: true,
-          message: 'Recruiter created successfully',
-          data: newRecruiter
-        });
-      } catch (error) {
-        console.error(error);
-        res.status(500).json({
-          success: false,
-          message: 'Error creating recruiter',
-          error: error.message
-        });
-      }
-    };
+    //     await newRecruiter.save();
+    //     res.status(201).json({
+    //       success: true,
+    //       message: 'Recruiter created successfully',
+    //       data: newRecruiter
+    //     });
+    //   } catch (error) {
+    //     console.error(error);
+    //     res.status(500).json({
+    //       success: false,
+    //       message: 'Error creating recruiter',
+    //       error: error.message
+    //     });
+    //   }
+    // };
+
+
+
+
+
+
+export const createRecruiter = async (req, res) => {
+  const { FirstName, LastName, Email, Password, Phone, CompanyName, Designation, UserProfile } = req.body;
+
+  try {
+    const hashedPassword = await bcrypt.hash(Password, 10);
+
+    const newRecruiter = new Recruiter({
+      FirstName,
+      LastName,
+      Email,
+      Phone,
+      Password: hashedPassword,
+      CompanyName,
+      Designation,
+      UserProfile
+    });
+
+    await newRecruiter.save();
+
+    // Email content
+    const htmlContent = `
+      <h2>Welcome to Job Portal</h2>
+      <p>Hello ${FirstName},</p>
+      <p>Your recruiter account has been created successfully.</p>
+      <p><strong>Email:</strong> ${Email}</p>
+      <p><strong>Password:</strong> ${Password}</p>
+      <p>Please login and change your password after your first login.</p>
+    `;
+
+    // Send email
+    await sendMail(Email, 'Your Recruiter Account Credentials', htmlContent);
+
+    res.status(201).json({
+      success: true,
+      message: 'Recruiter created successfully and email sent',
+      data: newRecruiter
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({
+      success: false,
+      message: 'Error creating recruiter',
+      error: error.message
+    });
+  }
+};
+
     
     // Update Recruiter Details
     export const updateRecruiter = async (req, res) => {
       const { id } = req.params;
-      const { FirstName, LastName, Email, CompanyName, Designation, UserProfile } = req.body;
+      const { FirstName, LastName, Email,Phone, CompanyName, Designation, UserProfile } = req.body;
     
       try {
         const updatedRecruiter = await Recruiter.findByIdAndUpdate(id, {
@@ -322,6 +378,7 @@ export const createUser = async (req , res)=>{
           Email,
           CompanyName,
           Designation,
+          Phone,
           UserProfile
         }, { new: true });
     
@@ -369,6 +426,99 @@ export const createUser = async (req , res)=>{
           success: false,
           message: 'Error deleting recruiter',
           error: error.message
+        });
+      }
+    };
+          // inquiries
+    export const getAllInquiries = async (req, res) => {
+      try {
+        const page = parseInt(req.query.page) || 1;
+        const limit = 5;
+        const skip = (page - 1) * limit;
+    
+        const total = await Inquiry.countDocuments();
+        const inquiries = await Inquiry.find().skip(skip).limit(limit).sort({ createdAt: -1 });
+    
+        res.status(200).json({
+          success: true,
+          status: 200,
+          message: "Inquiries fetched successfully",
+          data: {
+            inquiries,
+            pagination: {
+              total,
+              currentPage: page,
+              totalPages: Math.ceil(total / limit),
+            },
+          },
+        });
+      } catch (error) {
+        res.status(500).json({
+          success: false,
+          status: 500,
+          message: "Server Error",
+          data: null,
+        });
+      }
+    };
+
+    export const replyInquiry = async (req, res) => {
+      const { email, subject, message, inquiryId } = req.body;
+    
+      // Validate input
+      if (!email || !subject || !message || !inquiryId) {
+        return res.status(400).json({
+          success: false,
+          status: 400,
+          message: "Email, subject, message, and inquiryId are required.",
+          data: null,
+        });
+      }
+    
+      // Check if the email exists in the Inquiry collection
+      const existingInquiry = await Inquiry.findOne({ _id: inquiryId, Email: email });
+    
+      if (!existingInquiry) {
+        return res.status(404).json({
+          success: false,
+          status: 404,
+          message: "Inquiry with the provided email and ID not found.",
+          data: null,
+        });
+      }
+    
+      // Create email content
+      const htmlContent = `
+        <div style="font-family: Arial, sans-serif; line-height: 1.6;">
+          <p>${message}</p>
+          <br/>
+          <p>Regards,<br/>Job Portal Team</p>
+        </div>
+      `;
+    
+      // Send email
+      const result = await sendMail(email, subject, htmlContent);
+    
+      if (result.success) {
+        // Save reply in database
+        const savedReply = await ReplyInquiry.create({
+          inquiryId,
+          replyMessage: message,
+          repliedBy: "Admin", // In future: use auth
+        });
+    
+        return res.status(200).json({
+          success: true,
+          status: 200,
+          message: "Reply sent and saved successfully.",
+          data: savedReply,
+        });
+      } else {
+        return res.status(500).json({
+          success: false,
+          status: 500,
+          message: "Failed to send reply email.",
+          data: result.error.message,
         });
       }
     };
