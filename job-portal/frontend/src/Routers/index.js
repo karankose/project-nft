@@ -27,7 +27,7 @@ const routers = {
     adminGetRecruiterRouter : "recruiterInfo",
     inquiryTableRouter : "inquiryInfo",
     jobcurdRouter  : "jobget",  
-
+    plansRouter : "plans"
     
     
     

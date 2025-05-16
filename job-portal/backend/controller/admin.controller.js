@@ -8,6 +8,8 @@ import Recruiter from '../models/recruiter.model.js';
 import Inquiry from '../models/Inquiry.model.js';
 import { sendMail } from '../service/emailService.js';
 import ReplyInquiry from '../models/replyInquiry.model.js';
+
+//  login 
 export const adminLogin = async (req, res) => {
   try {
     const { Email, Password } = req.body;
@@ -61,6 +63,8 @@ export const adminLogin = async (req, res) => {
   }
 };
 
+
+//  state data
 export const getStats = async(req , res) =>{
     try {
         // Get the latest posted date
@@ -101,6 +105,9 @@ export const getStats = async(req , res) =>{
     }
     };
 
+
+//  users
+//  get users
     export const getAllUsersData = async (req, res) => {
       try {
         const page = parseInt(req.query.page) || 1;
@@ -132,7 +139,7 @@ export const getStats = async(req , res) =>{
         });
       }
     };
-    
+//  create user
 export const createUser = async (req , res)=>{
 
    try {
@@ -181,6 +188,7 @@ export const createUser = async (req , res)=>{
 
 
 }
+//  delete user
     export const deleteUser = async (req, res) => {
       const userId = req.params.id;
     
@@ -213,7 +221,7 @@ export const createUser = async (req , res)=>{
         });
       }
     };
-
+//  update user
     export const updateUser = async (req, res) => {
       const userId = req.params.id;
       const updatedData = req.body;
@@ -250,6 +258,9 @@ export const createUser = async (req , res)=>{
       }
     };
 
+
+//  recruiter
+//  get recruiter
     export const getAllRecruiters = async (req, res) => {
       const page = parseInt(req.query.page) || 1;
       const limit = 5;
@@ -278,46 +289,7 @@ export const createUser = async (req , res)=>{
         });
       }
     };
-    
-    // // Create a New Recruiter
-    // export const createRecruiter = async (req, res) => {
-    //   const { FirstName, LastName, Email, Password,Phone, CompanyName, Designation, UserProfile } = req.body;
-    
-    //   try {
-    //     const hashedPassword = await bcrypt.hash(Password, 10);
-    
-    //     const newRecruiter = new Recruiter({
-    //       FirstName,
-    //       LastName,
-    //       Email,
-    //       Phone,
-    //       Password: hashedPassword,
-    //       CompanyName,
-    //       Designation,
-    //       UserProfile
-    //     });
-    
-    //     await newRecruiter.save();
-    //     res.status(201).json({
-    //       success: true,
-    //       message: 'Recruiter created successfully',
-    //       data: newRecruiter
-    //     });
-    //   } catch (error) {
-    //     console.error(error);
-    //     res.status(500).json({
-    //       success: false,
-    //       message: 'Error creating recruiter',
-    //       error: error.message
-    //     });
-    //   }
-    // };
-
-
-
-
-
-
+// create recruiter
 export const createRecruiter = async (req, res) => {
   const { FirstName, LastName, Email, Password, Phone, CompanyName, Designation, UserProfile } = req.body;
 
@@ -364,9 +336,7 @@ export const createRecruiter = async (req, res) => {
     });
   }
 };
-
-    
-    // Update Recruiter Details
+//  update recruiter
     export const updateRecruiter = async (req, res) => {
       const { id } = req.params;
       const { FirstName, LastName, Email,Phone, CompanyName, Designation, UserProfile } = req.body;
@@ -403,8 +373,7 @@ export const createRecruiter = async (req, res) => {
         });
       }
     };
-    
-    // Delete Recruiter
+//  Delete Recruiter
     export const deleteRecruiter = async (req, res) => {
       const { id } = req.params;
     
@@ -429,7 +398,10 @@ export const createRecruiter = async (req, res) => {
         });
       }
     };
-          // inquiries
+
+
+//  inquiries
+//  get onquires
     export const getAllInquiries = async (req, res) => {
       try {
         const page = parseInt(req.query.page) || 1;
@@ -461,7 +433,7 @@ export const createRecruiter = async (req, res) => {
         });
       }
     };
-
+//  inquiries reply
     export const replyInquiry = async (req, res) => {
       const { email, subject, message, inquiryId } = req.body;
     
@@ -522,3 +494,194 @@ export const createRecruiter = async (req, res) => {
         });
       }
     };
+
+//  Jobs
+// Create Job
+
+export const createJob = async (req, res) => {
+  try {
+    const jobExists = await Job.findOne({ job_id: req.body.job_id });
+    if (jobExists) {
+      return res.status(400).json({
+        success: false,
+        status: 400,
+        message: "Job with this job_id already exists",
+        data: null,
+      });
+    }
+    const newJob = new Job(req.body);
+    await newJob.save();
+    return res.status(201).json({
+      success: true,
+      status: 201,
+      message: "Job created successfully",
+      data: newJob,
+    });
+  } catch (error) {
+    return res.status(500).json({
+      success: false,
+      status: 500,
+      message: error.message,
+      data: null,
+    });
+  }
+};
+// Get Jobs 
+export const getJobs = async (req, res) => {
+    try {
+        const page = parseInt(req.query.page) || 1;
+        const limit = parseInt(req.query.limit) || 6;
+        const skip = (page - 1) * limit;
+    
+        const { title, location, company_name } = req.query;
+    
+      
+        const query = {};
+        if (title) {
+          query.title = { $regex: title, $options: "i" };
+        }
+        if (location) {
+          query.location = { $regex: location, $options: "i" };
+        }
+        if (company_name) {
+          query.company_name = { $regex: company_name, $options: "i" };
+        }
+        
+    
+        const jobs = await Job.find(query)
+          .sort({ createdAt: -1 })
+          .skip(skip)
+          .limit(limit);
+    
+        const totalJobs = await Job.countDocuments(query);
+    
+        res.status(200).json({
+          success: true,
+          status: 200,
+          message: "Jobs fetched successfully",
+          currentPage: page,
+          totalPages: Math.ceil(totalJobs / limit),
+          totalJobs,
+          data: jobs,
+        });
+      } catch (error) {
+        console.error("Error fetching jobs:", error.message);
+        res.status(500).json({
+          success: false,
+          status: 500,
+          message: "Failed to fetch jobs",
+          data: null,
+        });
+      }
+  // try {
+  //   const { title, company_name, location, page = 1, limit = 5 } = req.query;
+
+  //   const filter = {};
+  //   if (title) filter.title = { $regex: title, $options: "i" };
+  //   if (company_name) filter.company_name = { $regex: company_name, $options: "i" };
+  //   if (location) filter.location = { $regex: location, $options: "i" };
+
+  //   const totalJobs = await Job.countDocuments(filter);
+  //   const jobs = await Job.find(filter)
+  //     .skip((page - 1) * limit)
+  //     .limit(Number(limit));
+
+  //   res.status(200).json({
+  //     success: true,
+  //     status: 200,
+  //     message: "Jobs fetched successfully",
+  //     data: {
+  //       jobs,
+  //       totalPages: Math.ceil(totalJobs / limit),
+  //       currentPage: Number(page),
+  //     },
+  //   });
+  // } catch (err) {
+  //   res.status(500).json({ success: false, status: 500, message: "Server Error", error: err.message });
+  // }
+};
+// Get Job
+export const getJobById = async (req, res) => {
+  try {
+    const job = await Job.findOne({ job_id: req.params.job_id });
+    if (!job) {
+      return res.status(404).json({
+        success: false,
+        status: 404,
+        message: "Job not found",
+        data: null,
+      });
+    }
+    return res.status(200).json({
+      success: true,
+      status: 200,
+      message: "Job fetched successfully",
+      data: job,
+    });
+  } catch (error) {
+    return res.status(500).json({
+      success: false,
+      status: 500,
+      message: error.message,
+      data: null,
+    });
+  }
+};
+// Update Job 
+export const updateJob = async (req, res) => {
+  try {
+    const job = await Job.findOneAndUpdate(
+      { _id: req.params._id },
+      req.body,
+      { new: true }
+    );
+    if (!job) {
+      return res.status(404).json({
+        success: false,
+        status: 404,
+        message: "Job not found",
+        data: null,
+      });
+    }
+    return res.status(200).json({
+      success: true,
+      status: 200,
+      message: "Job updated successfully",
+      data: job,
+    });
+  } catch (error) {
+    return res.status(500).json({
+      success: false,
+      status: 500,
+      message: error.message,
+      data: null,
+    });
+  }
+};
+// Delete Job
+export const deleteJob = async (req, res) => {
+  try {
+    const job = await Job.findOneAndDelete({ job_id: req.params.job_id });
+    if (!job) {
+      return res.status(404).json({
+        success: false,
+        status: 404,
+        message: "Job not found",
+        data: null,
+      });
+    }
+    return res.status(200).json({
+      success: true,
+      status: 200,
+      message: "Job deleted successfully",
+      data: null,
+    });
+  } catch (error) {
+    return res.status(500).json({
+      success: false,
+      status: 500,
+      message: error.message,
+      data: null,
+    });
+  }
+};

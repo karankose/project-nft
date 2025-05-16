@@ -3,6 +3,7 @@ import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import Recruiter from '../models/recruiter.model.js'
 
+// signUp
 export const CreateUser = async (req, res, next) => {
   try {
     const { FirstName, LastName, Email, Password } = req.body;
@@ -46,9 +47,7 @@ export const CreateUser = async (req, res, next) => {
     });
   }
 };
-
-
-
+// login
 export const UserLogin = async (req, res, next) => {
   try {
     const { Email, Password } = req.body;

@@ -38,7 +38,10 @@ import Section1 from './componts/screens/Section1';
 import UserTable from './componts/AdminSection/UserTable';
 import RecruiterTable from './componts/AdminSection/RecruiterTable';
 import InquiryTable from './componts/AdminSection/InquiryTable';
-import JobCRUD from './componts/AdminSection/JobCRUD';
+import JobCRUD from './componts/AdminSection/JobList';
+import PricingPlans from './componts/screens/PricingPlans';
+import Subscription from './componts/AdminSection/Subscription';
+import JobList from './componts/AdminSection/JobList';
 
 const App = () => {
   return (
@@ -100,7 +103,8 @@ const App = () => {
           <Route path={routers.adminGetUserDataRouter} element={<UserTable />} />
           <Route path={routers.adminGetRecruiterRouter} element={<RecruiterTable />} />
           <Route path={routers.inquiryTableRouter} element={<InquiryTable />} />
-          <Route path={routers.jobcurdRouter} element={<JobCRUD />} />
+          <Route path={routers.jobcurdRouter} element={<JobList />} />
+          <Route path={routers.plansRouter} element={<Subscription/>}/>
         </Route>
 
       </Routes>

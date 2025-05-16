@@ -115,6 +115,22 @@ export const AdminLayout = () => {
                   </Link>
                 </li>
 
+                <li className={`py-3 px-4 ${activePath === "/plans" ? "active-menu" : ""}`}>
+                  <Link to={routers.plansRouter}>
+                    <span className="d-flex gap-3">
+                      <img
+                        src={
+                          activePath === "/plans"
+                            ? Images.SelectedReports
+                            : Images.Reports
+                        }
+                        alt="Resume Icon"
+                      />
+                      {!isCollapsed && <p className="Fs16_FW600 black"> plans </p>}
+                    </span>
+                  </Link>
+                </li>
+
                 <li className={`py-3 px-4 ${activePath === "/jobget" ? "active-menu" : ""}`}>
                   <Link to={routers.jobcurdRouter}>
                     <span className="d-flex gap-3">
@@ -129,9 +145,7 @@ export const AdminLayout = () => {
                       {!isCollapsed && <p className="Fs16_FW600 black"> job</p>}
                     </span>
                   </Link>
-                </li>
-              
-                
+                </li>  
               </ul>
             </div>
           </div>

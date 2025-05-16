@@ -2,7 +2,12 @@ import express from "express";
 import { adminLogin, getAllUsersData, getStats , deleteUser, updateUser,createUser,
   getAllRecruiters,createRecruiter ,updateRecruiter ,deleteRecruiter,
   getAllInquiries,
-  replyInquiry
+  replyInquiry,
+  getJobs,
+  getJobById,
+  createJob,
+  updateJob,
+  deleteJob
 } from "../controller/admin.controller.js";
 import validateAdminLogin from "../middleWare/admin.validation.js";
 import handleValidation from "../middleWare/handleValidation.js";
@@ -42,6 +47,15 @@ adminRouter.delete('/delete-recruiter/:id', deleteRecruiter);
 adminRouter.get("/inquiries", getAllInquiries); 
 
 adminRouter.post("/inquiries/reply", replyInquiry);
+
+//job
+adminRouter.get("/jobs", getJobs); // Pagination supported
+adminRouter.get("/jobs/:job_id", getJobById);
+adminRouter.post("/job", createJob);
+adminRouter.put("/job/:_id", updateJob);
+adminRouter.delete("/job/:job_id", deleteJob);
+
+
 
 
 

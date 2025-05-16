@@ -47,6 +47,8 @@ function JobPage() {
   }, [currentPage, titleFilter, locationFilter, dateFilter]);
 
   const handlePageChange = ({ selected }) => {
+    console.log("111");
+    
     setCurrentPage(selected);
   };
 
@@ -62,7 +64,10 @@ function JobPage() {
             placeholder="Filter by title"
             className="form-control"
             value={titleFilter}
-            onChange={(e) => setTitleFilter(e.target.value)}
+            onChange={(e) => {
+              console.log("2");
+              
+              setTitleFilter(e.target.value)}}
           />
         </div>
         <div className="col-md-4">
@@ -71,7 +76,10 @@ function JobPage() {
             placeholder="Filter by location"
             className="form-control"
             value={locationFilter}
-            onChange={(e) => setLocationFilter(e.target.value)}
+            onChange={(e) => {
+              console.log("3");
+              
+              setLocationFilter(e.target.value)}}
           />
         </div>
         <div className="col-md-4">
@@ -80,7 +88,10 @@ function JobPage() {
             placeholder="Posted within (days)"
             className="form-control"
             value={dateFilter}
-            onChange={(e) => setDateFilter(e.target.value)}
+            onChange={(e) => {
+              console.log("444");
+              
+              setDateFilter(e.target.value)}}
           />
         </div>
       </div>
