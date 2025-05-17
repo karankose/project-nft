@@ -29,7 +29,7 @@ const HeroSection = () => {
                 <span className="input-group-text bg-white border-0">
                   <i className="bi bi-search"></i>
                 </span>
-                <input type="text" className="form-control border-0" placeholder="Job title or keyword" />
+                <input type="text" className="form-control border-0" placeholder="Job title " />
               </div>
 
               <div className="input-group">

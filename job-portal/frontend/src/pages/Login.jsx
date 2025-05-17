@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { replace, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import {Navbars} from '../componts/screens/Navbars';
 import Footer from '../componts/screens/Footer';
 import FormInputs from '../componts/reuseComponts/reuseFormComponent/FormInputs';

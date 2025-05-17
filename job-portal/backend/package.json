@@ -14,6 +14,7 @@
     "@google/genai": "^0.10.0",
     "@google/generative-ai": "^0.24.1",
     "axios": "^1.8.4",
+    "backend": "file:",
     "bcryptjs": "^3.0.2",
     "body-parser": "^2.2.0",
     "cors": "^2.8.5",

@@ -8,6 +8,7 @@ import Recruiter from '../models/recruiter.model.js';
 import Inquiry from '../models/Inquiry.model.js';
 import { sendMail } from '../service/emailService.js';
 import ReplyInquiry from '../models/replyInquiry.model.js';
+import { setLogCapture } from 'puppeteer';
 
 //  login 
 export const adminLogin = async (req, res) => {
@@ -661,7 +662,9 @@ export const updateJob = async (req, res) => {
 // Delete Job
 export const deleteJob = async (req, res) => {
   try {
-    const job = await Job.findOneAndDelete({ job_id: req.params.job_id });
+    const job = await Job.findOneAndDelete({ _id: req.params._id });
+    console.log(req.params._id,">>>>>>>>>");
+    
     if (!job) {
       return res.status(404).json({
         success: false,

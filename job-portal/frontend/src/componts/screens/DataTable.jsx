@@ -1,18 +1,21 @@
+
 import React from "react";
+import "bootstrap/dist/css/bootstrap.min.css"; // Ensure Bootstrap is imported
+
 const DataTable = ({ data, columns }) => {
   return (
     <div className="table-responsive">
-      <table className="table align-middle">
-        <thead className="table-light py-3">
-          <tr className="py-3">
+      <table className="table table-hover table-striped table-bordered align-middle">
+        <thead className="table-light">
+          <tr>
             {columns.map((col, idx) => (
-              <th key={idx} className="fw-normal text-center table-heading">
+              <th key={idx} className="fw-semibold text-center">
                 {col.title}
               </th>
             ))}
           </tr>
         </thead>
-        <tbody className="table-content">
+        <tbody>
           {data.map((item, i) => (
             <tr key={item.id || i} className="text-center">
               {columns.map((col, j) => (
@@ -25,4 +28,5 @@ const DataTable = ({ data, columns }) => {
     </div>
   );
 };
+
 export default DataTable;

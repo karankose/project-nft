@@ -11,12 +11,18 @@ export const fetchJobs = createAsyncThunk("jobs/fetch", async (params) => {
   return res.data;
 });
 
+export const createJob = createAsyncThunk("jobs/create", async (newJob) => {
+  const res = await axios.post(`${VITE_ADMIN_URL}/job`, newJob);
+  return res.data.data;
+});
+
 export const updateJob = createAsyncThunk("jobs/update", async ({ id, updatedData }) => {
   const res = await axios.put(`${VITE_ADMIN_URL}/job/${id}`, updatedData);
   return res.data.data;
 });
 
 export const deleteJob = createAsyncThunk("jobs/delete", async (id) => {
+  
   await axios.delete(`${VITE_ADMIN_URL}/job/${id}`);
   console.log(id);
   
@@ -50,6 +56,9 @@ const jobSlice = createSlice({
         state.totalJobs = action.payload.totalJobs;
         state.currentPage = action.payload.currentPage;
       })
+      .addCase(createJob.fulfilled, (state, action) => {
+  state.jobs.unshift(action.payload); // add the new job to the beginning
+})
       .addCase(updateJob.fulfilled, (state, action) => {
         const index = state.jobs.findIndex((job) => job._id === action.payload._id);
         if (index !== -1) state.jobs[index] = action.payload;

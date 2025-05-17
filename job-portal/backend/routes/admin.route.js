@@ -53,7 +53,7 @@ adminRouter.get("/jobs", getJobs); // Pagination supported
 adminRouter.get("/jobs/:job_id", getJobById);
 adminRouter.post("/job", createJob);
 adminRouter.put("/job/:_id", updateJob);
-adminRouter.delete("/job/:job_id", deleteJob);
+adminRouter.delete("/job/:_id", deleteJob);
 
 
 

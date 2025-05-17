@@ -17,6 +17,7 @@ const JobList = () => {
     title: "company",
     render: (j) => j.company_name,
   },
+  
   {
     title: "location",
     render: (j) => j.location,
@@ -27,15 +28,12 @@ const JobList = () => {
   },
   {
     title : "extensions",
-    render: (j) => (<pre>{j.extensions}</pre>),
+    render: (j) => j.extensions,
   },
   {
     title: "Actions",
-    render: () => (
+    render: (job) => (
       <>
-
-      
-       
           <CustomButton
            
             wrapperClassName="w-100 m-2 "
@@ -46,7 +44,7 @@ const JobList = () => {
        
       
           <CustomButton
-           onClick={handleDelete}
+           onClick={()=>handleDelete(job._id)}
             wrapperClassName="w-100 m-2 "
             btnClassName="btn btn-outline-danger w-100"
             label="Delete"
@@ -78,8 +76,10 @@ const JobList = () => {
   };
 
   const handleDelete = (id) => {
+    
     if (confirm("Are you sure you want to delete this job?")) {
       dispatch(deleteJob(id));
+      
     }
   };
 
