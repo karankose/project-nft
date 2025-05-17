@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchJobs, deleteJob, updateJob, setCurrentPage } from "../../redux/jobSlice";
 import DataTable from "../screens/DataTable";
+import CustomButton from "../reuseComponts/reuseButton/CustomButton";
 
 const JobList = () => {
 
@@ -26,14 +27,33 @@ const JobList = () => {
   },
   {
     title : "extensions",
-    render: (j) => j.extensions,
+    render: (j) => (<pre>{j.extensions}</pre>),
   },
   {
     title: "Actions",
     render: () => (
       <>
-        <button className="btn btn-sm edit-btn" >Edit</button>
-        <button className="btn btn-sm delete-btn">Delete</button>
+
+      
+       
+          <CustomButton
+           
+            wrapperClassName="w-100 m-2 "
+            btnClassName="btn btn-outline-primary w-100"
+            label="Edit"
+            onClick={handleEditClick}
+          />
+       
+      
+          <CustomButton
+           onClick={handleDelete}
+            wrapperClassName="w-100 m-2 "
+            btnClassName="btn btn-outline-danger w-100"
+            label="Delete"
+          />
+        
+     
+   
       </>
     ),
   },
