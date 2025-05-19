@@ -41,7 +41,7 @@ const JobSchema = new mongoose.Schema({
     job_id: {
         type: String,
         unique: true,
-        required: true,
+       
     },
 }, { timestamps: true });
 

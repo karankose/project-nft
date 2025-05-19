@@ -13,7 +13,7 @@ export const fetchJobs = createAsyncThunk("jobs/fetch", async (params) => {
 
 export const createJob = createAsyncThunk("jobs/create", async (newJob) => {
   const res = await axios.post(`${VITE_ADMIN_URL}/job`, newJob);
-  return res.data.data;
+  return res.data;
 });
 
 export const updateJob = createAsyncThunk("jobs/update", async ({ id, updatedData }) => {

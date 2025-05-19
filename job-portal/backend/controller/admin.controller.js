@@ -9,6 +9,7 @@ import Inquiry from '../models/Inquiry.model.js';
 import { sendMail } from '../service/emailService.js';
 import ReplyInquiry from '../models/replyInquiry.model.js';
 import { setLogCapture } from 'puppeteer';
+import adminRouter from '../routes/admin.route.js';
 
 //  login 
 export const adminLogin = async (req, res) => {
@@ -501,32 +502,53 @@ export const createRecruiter = async (req, res) => {
 
 export const createJob = async (req, res) => {
   try {
-    const jobExists = await Job.findOne({ job_id: req.body.job_id });
-    if (jobExists) {
-      return res.status(400).json({
-        success: false,
-        status: 400,
-        message: "Job with this job_id already exists",
-        data: null,
-      });
-    }
-    const newJob = new Job(req.body);
-    await newJob.save();
-    return res.status(201).json({
+    const {
+      title,
+      company_name,
+      location,
+      via,
+      extensions,
+      // description,
+    } = req.body;
+
+    console.log("Incoming job data:", req.body);
+
+    const formattedExtensions = Array.isArray(extensions)
+      ? extensions
+      : extensions.split(',').map(e => e.trim());
+
+    const newJob = await Job.create({
+      title,
+      company_name,
+      location,
+      via,
+      extensions: formattedExtensions,
+      // description,
+    });
+
+    res.status(201).json({
       success: true,
       status: 201,
       message: "Job created successfully",
       data: newJob,
     });
   } catch (error) {
-    return res.status(500).json({
+    // ✅ Add this line to see the real cause in your terminal
+    console.error("Create Job Error:", error);
+
+    res.status(500).json({
       success: false,
       status: 500,
-      message: error.message,
-      data: null,
+      message: "Server error",
+      data: error.message,
     });
   }
 };
+
+
+
+
+
 // Get Jobs 
 export const getJobs = async (req, res) => {
     try {
@@ -685,6 +707,47 @@ export const deleteJob = async (req, res) => {
       status: 500,
       message: error.message,
       data: null,
+    });
+  }
+};
+
+
+export const getAllCompanies = async (req, res) => {
+  try {
+    const { page = 1, limit = 5, company_name, location } = req.query;
+
+    const filter = {};
+    if (company_name) {
+      filter.company_name = { $regex: company_name, $options: "i" };
+    }
+    if (location) {
+      filter.location = { $regex: location, $options: "i" };
+    }
+
+    const totalCompanies = await Company.countDocuments(filter);
+
+    const companies = await Company.find(filter)
+      .populate("jobs")
+      .limit(parseInt(limit))
+      .skip((parseInt(page) - 1) * parseInt(limit));
+
+    res.status(200).json({
+      success: true,
+      status: 200,
+      message: "Companies fetched successfully",
+      data: {
+        companies,
+        currentPage: parseInt(page),
+        totalPages: Math.ceil(totalCompanies / limit),
+        totalCompanies,
+      },
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      status: 500,
+      message: "Server error",
+      data: error.message,
     });
   }
 };

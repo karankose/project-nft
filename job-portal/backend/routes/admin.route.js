@@ -7,7 +7,8 @@ import { adminLogin, getAllUsersData, getStats , deleteUser, updateUser,createUs
   getJobById,
   createJob,
   updateJob,
-  deleteJob
+  deleteJob,
+  getAllCompanies
 } from "../controller/admin.controller.js";
 import validateAdminLogin from "../middleWare/admin.validation.js";
 import handleValidation from "../middleWare/handleValidation.js";
@@ -54,6 +55,7 @@ adminRouter.get("/jobs/:job_id", getJobById);
 adminRouter.post("/job", createJob);
 adminRouter.put("/job/:_id", updateJob);
 adminRouter.delete("/job/:_id", deleteJob);
+adminRouter.get("/companies",getAllCompanies)
 
 
 
